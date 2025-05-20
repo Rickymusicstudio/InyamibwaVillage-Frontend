@@ -190,49 +190,44 @@
 
   <!-- ✅ JS Includes -->
   <script src="shared.js"></script>
+  <script src="residents.js"></script>
   <script>
-    if (!window.token) {
+    if (!token) {
       alert('Access denied.');
       window.location.href = 'login.html';
     }
 
     renderNav('residents');
 
-    fetch('https://inyamibwavillage.onrender.com/api/irondo/current-shift', {
-      headers: {
-        Authorization: 'Bearer ' + window.token
-      }
-    })
-    .then(res => res.json())
-    .then(data => {
-      const tbody = document.querySelector('#shiftTable tbody');
-      tbody.innerHTML = '';
+    // ✅ Fetch and display Abanyerondo shift in table
+    fetch('http://localhost:5000/api/irondo/current-shift')
+      .then(res => res.json())
+      .then(data => {
+        const tbody = document.querySelector('#shiftTable tbody');
+        tbody.innerHTML = '';
 
-      const rows = [
-        ...data.day.map(p => ({ ...p, shift: 'Kumanywa' })),
-        ...data.night.map(p => ({ ...p, shift: 'Nijoro' }))
-      ];
+        const rows = [...data.day.map(p => ({ ...p, shift: 'Kumanywa' })), ...data.night.map(p => ({ ...p, shift: 'Nijoro' }))];
 
-      if (!rows.length) {
-        tbody.innerHTML = '<tr><td colspan="3">Nta munyerondo uri ku kazi.</td></tr>';
-        return;
-      }
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="3">Nta munyerondo uri ku kazi.</td></tr>';
+          return;
+        }
 
-      rows.forEach(member => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${member.full_name}</td>
-          <td>${member.phone || '-'}</td>
-          <td>${member.shift}</td>
-        `;
-        tbody.appendChild(row);
+        rows.forEach(member => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${member.full_name}</td>
+            <td>${member.phone || '-'}</td>
+            <td>${member.shift}</td>
+          `;
+          tbody.appendChild(row);
+        });
+      })
+      .catch(err => {
+        const tbody = document.querySelector('#shiftTable tbody');
+        tbody.innerHTML = '<tr><td colspan="3">Ntibyakunze kubona abanyerondo bari ku kazi.</td></tr>';
+        console.error('Irondo shift fetch error:', err);
       });
-    })
-    .catch(err => {
-      const tbody = document.querySelector('#shiftTable tbody');
-      tbody.innerHTML = '<tr><td colspan="3">Ntibyakunze kubona abanyerondo bari ku kazi.</td></tr>';
-      console.error('Irondo shift fetch error:', err);
-    });
   </script>
 </body>
 </html>
