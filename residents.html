@@ -190,21 +190,17 @@
 
   <!-- ✅ JS Includes -->
   <script src="shared.js"></script>
-  <script src="residents.js"></script>
   <script>
-    // 🔐 Route protection
-    const token = localStorage.getItem('token');
-    if (!token) {
+    if (!window.token) {
       alert('Access denied.');
       window.location.href = 'login.html';
     }
 
     renderNav('residents');
 
-    // ✅ Fetch and display Abanyerondo shift in table
     fetch('https://inyamibwavillage.onrender.com/api/irondo/current-shift', {
       headers: {
-        Authorization: 'Bearer ' + token
+        Authorization: 'Bearer ' + window.token
       }
     })
     .then(res => res.json())
