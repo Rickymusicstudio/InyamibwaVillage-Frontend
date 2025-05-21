@@ -70,12 +70,14 @@
 
     .table-container {
       overflow-x: auto;
+      width: 100%;
       margin-bottom: 2rem;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
+      min-width: 600px;
       margin-top: 0.5rem;
     }
 
@@ -89,6 +91,13 @@
       background-color: var(--yellow);
     }
 
+    .no-data {
+      text-align: center;
+      font-style: italic;
+      color: gray;
+      padding: 1rem;
+    }
+
     h1, h2 {
       margin-top: 0;
       color: var(--text-dark);
@@ -100,24 +109,37 @@
       border-left: 4px solid var(--green);
       border-radius: 6px;
     }
+
+    @media (max-width: 600px) {
+      .navbar ul {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      table {
+        font-size: 14px;
+      }
+
+      input[type="search"] {
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- ✅ NAVIGATION BAR -->
   <nav class="navbar">
     <h2>🏡 Inyamibwa</h2>
     <ul id="navLinks"></ul>
   </nav>
 
-  <!-- ✅ MAIN CONTENT -->
   <main class="content">
     <h1>👥 ABATUYE UMUDUGUDU</h1>
 
-    <!-- ✅ Residents Table -->
     <section>
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 15px;">
         <h2>Abaturage</h2>
-        <input type="search" id="residentSearch" placeholder="Shakisha abaturage..." style="padding: 6px 12px; font-size: 16px; width: 250px;">
+        <input type="search" id="residentSearch" placeholder="Shakisha abaturage..." style="padding: 6px 12px; font-size: 16px; max-width: 300px; width: 100%;">
       </div>
       <div class="table-container">
         <table id="residentsTable">
@@ -137,7 +159,6 @@
       </div>
     </section>
 
-    <!-- ✅ Isibo Leaders -->
     <section>
       <h2>🧑‍🏫 Abatwarasibo</h2>
       <div class="table-container">
@@ -158,19 +179,16 @@
       </div>
     </section>
 
-    <!-- ✅ Security Leader -->
     <section>
       <h2>🛡️ Umukuru w’Umutekano</h2>
-      <div id="securityLeaderInfo">Biracyashakishwa...</div>
+      <div id="securityLeaderInfo" class="no-data">Biracyashakishwa...</div>
     </section>
 
-    <!-- ✅ Cell Leader -->
     <section>
       <h2>👨‍⚖️ Umukuru w’Umudugudu</h2>
-      <div id="cellLeaderInfo">Biracyashakishwa...</div>
+      <div id="cellLeaderInfo" class="no-data">Biracyashakishwa...</div>
     </section>
 
-    <!-- ✅ Abanyerondo Shift Table -->
     <section style="margin-top: 3rem;">
       <h2>👮 Abanyerondo bari ku kazi</h2>
       <div class="table-container">
@@ -188,7 +206,6 @@
     </section>
   </main>
 
-  <!-- ✅ JS Includes -->
   <script src="config/api.js"></script>
   <script src="shared.js"></script>
   <script src="residents.js"></script>
@@ -200,8 +217,7 @@
 
     renderNav('residents');
 
-    // ✅ Fetch and display Abanyerondo shift in table
-    fetch('http://localhost:5000/api/irondo/current-shift')
+    fetch(`${API_BASE_URL}/api/irondo/current-shift`)
       .then(res => res.json())
       .then(data => {
         const tbody = document.querySelector('#shiftTable tbody');
@@ -210,7 +226,7 @@
         const rows = [...data.day.map(p => ({ ...p, shift: 'Kumanywa' })), ...data.night.map(p => ({ ...p, shift: 'Nijoro' }))];
 
         if (!rows.length) {
-          tbody.innerHTML = '<tr><td colspan="3">Nta munyerondo uri ku kazi.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="3" class="no-data">Nta munyerondo uri ku kazi.</td></tr>';
           return;
         }
 
@@ -226,7 +242,7 @@
       })
       .catch(err => {
         const tbody = document.querySelector('#shiftTable tbody');
-        tbody.innerHTML = '<tr><td colspan="3">Ntibyakunze kubona abanyerondo bari ku kazi.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="3" class="no-data">Ntibyakunze kubona abanyerondo bari ku kazi.</td></tr>';
         console.error('Irondo shift fetch error:', err);
       });
   </script>
