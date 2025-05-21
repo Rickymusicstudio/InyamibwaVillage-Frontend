@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="rw">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Abatuye Umudugudu - Inyamibwa</title>
   <style>
     :root {
@@ -100,6 +100,39 @@
       padding: 1rem;
       border-left: 4px solid var(--green);
       border-radius: 6px;
+    }
+
+    @media (max-width: 700px) {
+      .content, .table-container {
+        padding: 1rem !important;
+        margin: 0.5rem !important;
+      }
+      table, thead, tbody, th, td, tr {
+        display: block;
+        width: 100%;
+      }
+      thead {
+        display: none;
+      }
+      tr {
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #eee;
+      }
+      td {
+        padding: 0.5rem;
+        text-align: right;
+        position: relative;
+      }
+      td::before {
+        content: attr(data-label);
+        float: left;
+        font-weight: bold;
+        color: #007a33;
+      }
+      input[type="search"] {
+        width: 100% !important;
+        margin-bottom: 1rem;
+      }
     }
   </style>
 </head>
@@ -209,9 +242,9 @@
         rows.forEach(member => {
           const row = document.createElement('tr');
           row.innerHTML = `
-            <td>${member.full_name}</td>
-            <td>${member.phone || '-'}</td>
-            <td>${member.shift}</td>
+            <td data-label="Izina">${member.full_name}</td>
+            <td data-label="Telefone">${member.phone || '-'}</td>
+            <td data-label="Shift">${member.shift}</td>
           `;
           tbody.appendChild(row);
         });
