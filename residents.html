@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="rw">
-<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Abatuye Umudugudu - Inyamibwa</title>
@@ -77,7 +77,6 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 600px;
       margin-top: 0.5rem;
     }
 
@@ -91,13 +90,6 @@
       background-color: var(--yellow);
     }
 
-    .no-data {
-      text-align: center;
-      font-style: italic;
-      color: gray;
-      padding: 1rem;
-    }
-
     h1, h2 {
       margin-top: 0;
       color: var(--text-dark);
@@ -108,22 +100,6 @@
       padding: 1rem;
       border-left: 4px solid var(--green);
       border-radius: 6px;
-    }
-
-    @media (max-width: 600px) {
-      .navbar ul {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-
-      table {
-        font-size: 14px;
-      }
-
-      input[type="search"] {
-        width: 100%;
-        box-sizing: border-box;
-      }
     }
   </style>
 </head>
@@ -137,9 +113,9 @@
     <h1>👥 ABATUYE UMUDUGUDU</h1>
 
     <section>
-      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
         <h2>Abaturage</h2>
-        <input type="search" id="residentSearch" placeholder="Shakisha abaturage..." style="padding: 6px 12px; font-size: 16px; max-width: 300px; width: 100%;">
+        <input type="search" id="residentSearch" placeholder="Shakisha abaturage..." style="padding: 6px 12px; font-size: 16px; width: 250px;">
       </div>
       <div class="table-container">
         <table id="residentsTable">
@@ -181,12 +157,12 @@
 
     <section>
       <h2>🛡️ Umukuru w’Umutekano</h2>
-      <div id="securityLeaderInfo" class="no-data">Biracyashakishwa...</div>
+      <div id="securityLeaderInfo">Biracyashakishwa...</div>
     </section>
 
     <section>
       <h2>👨‍⚖️ Umukuru w’Umudugudu</h2>
-      <div id="cellLeaderInfo" class="no-data">Biracyashakishwa...</div>
+      <div id="cellLeaderInfo">Biracyashakishwa...</div>
     </section>
 
     <section style="margin-top: 3rem;">
@@ -226,7 +202,7 @@
         const rows = [...data.day.map(p => ({ ...p, shift: 'Kumanywa' })), ...data.night.map(p => ({ ...p, shift: 'Nijoro' }))];
 
         if (!rows.length) {
-          tbody.innerHTML = '<tr><td colspan="3" class="no-data">Nta munyerondo uri ku kazi.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="3">Nta munyerondo uri ku kazi.</td></tr>';
           return;
         }
 
@@ -242,7 +218,7 @@
       })
       .catch(err => {
         const tbody = document.querySelector('#shiftTable tbody');
-        tbody.innerHTML = '<tr><td colspan="3" class="no-data">Ntibyakunze kubona abanyerondo bari ku kazi.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="3">Ntibyakunze kubona abanyerondo bari ku kazi.</td></tr>';
         console.error('Irondo shift fetch error:', err);
       });
   </script>
