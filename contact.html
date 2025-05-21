@@ -142,6 +142,8 @@
   </main>
   <script src="config/api.js"></script>
  <script src="shared.js"></script>
+<script src="config/api.js"></script>
+<script src="shared.js"></script>
 <script>
   const token = JSON.parse(localStorage.getItem('loggedUser'))?.token;
   if (!token) {
@@ -150,6 +152,7 @@
 
   renderNav('contact');
 
+  const API = window.API_BASE_URL;
   const form = document.getElementById('contactForm');
   const statusMessage = document.getElementById('statusMessage');
 
@@ -163,19 +166,19 @@
     if (!message) return alert("Andika ubutumwa mbere yo kohereza.");
 
     const formData = new FormData();
-    formData.append('to', to); // ✅ FIXED from 'to_role' → 'to'
+    formData.append('to', to);
     formData.append('message', message);
 
-    // Optional: Add isibo if needed
+    // Optional: pull isibo from logged user data (later)
     if (to === 'isibo_leader') {
-      const residentIsibo = 'isibo_001'; // 🔁 Replace with actual value dynamically
-      formData.append('isibo', residentIsibo);
+      const isibo = JSON.parse(localStorage.getItem('loggedUser'))?.user?.isibo_id;
+      if (isibo) formData.append('isibo', isibo);
     }
 
     if (attachment) formData.append('attachment', attachment);
 
     try {
-      const res = await fetch('http://localhost:5000/api/messages', {
+      const res = await fetch(`${API}/api/messages`, {
         method: 'POST',
         headers: {
           Authorization: 'Bearer ' + token
@@ -198,5 +201,6 @@
     }
   });
 </script>
+
 </body>
 </html>
