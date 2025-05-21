@@ -3,9 +3,10 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
   const national_id = document.getElementById('national_id').value.trim();
   const password = document.getElementById('password').value.trim();
+  const API = window.API_BASE_URL;
 
   try {
-    const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+    const res = await fetch(`${API}/api/auth/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
