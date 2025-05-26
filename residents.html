@@ -143,7 +143,6 @@ h1, h2 {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 0.5rem;
 }
 
 th, td {
@@ -183,31 +182,26 @@ input[type="search"] {
     margin: 0.5rem !important;
   }
 
-  table, thead, tbody, th, td, tr {
-    display: block;
+  .table-container {
+    overflow-x: auto;
+  }
+
+  table {
     width: 100%;
+    border-collapse: collapse;
   }
 
   thead {
-    display: none;
+    display: table-header-group;
   }
 
   tr {
-    margin-bottom: 1rem;
-    border-bottom: 2px solid #eee;
+    display: table-row;
   }
 
-  td {
-    padding: 0.5rem;
-    text-align: right;
-    position: relative;
-  }
-
-  td::before {
-    content: attr(data-label);
-    float: left;
-    font-weight: bold;
-    color: var(--green);
+  td, th {
+    display: table-cell;
+    text-align: left;
   }
 
   input[type="search"] {
