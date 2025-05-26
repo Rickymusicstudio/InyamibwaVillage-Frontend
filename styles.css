@@ -1,3 +1,5 @@
+/* =================================== */
+/* GLOBAL VARIABLES & RESET */
 :root {
   --blue: #00aeef;
   --yellow: #fcd116;
@@ -6,6 +8,7 @@
   --background: #f5f5f5;
   --white: #ffffff;
   --gray: #f0f0f0;
+  --danger: #d9534f;
 }
 
 * {
@@ -20,7 +23,8 @@ body {
   min-height: 100vh;
 }
 
-/* ✅ NAVBAR */
+/* =================================== */
+/* NAVBAR */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -42,7 +46,7 @@ body {
 .navbar ul {
   list-style: none;
   display: flex;
-  gap: 2rem;
+  gap: 1.5rem;
   margin: 0;
   padding: 0;
 }
@@ -51,7 +55,6 @@ body {
   color: white;
   text-decoration: none;
   font-weight: 600;
-  padding-bottom: 0.2rem;
   border-bottom: 2px solid transparent;
   transition: border 0.3s ease;
 }
@@ -61,7 +64,8 @@ body {
   border-bottom: 2px solid var(--yellow);
 }
 
-/* ✅ PAGE CONTAINER */
+/* =================================== */
+/* COMMON PAGE CONTAINER */
 .content {
   max-width: 1000px;
   margin: 2rem auto;
@@ -71,71 +75,20 @@ body {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
-.welcome {
-  margin-bottom: 2rem;
-}
-
-.welcome h1 {
+h1, h2 {
   color: var(--blue);
+}
+
+h1 {
   font-size: 2rem;
-  margin-bottom: 0.5rem;
 }
 
-.welcome p {
-  font-size: 1rem;
-  line-height: 1.6;
+h2 {
+  font-size: 1.5rem;
 }
 
-/* ✅ COMMUNIQUE SECTION */
-.communique h2 {
-  color: var(--green);
-  margin-bottom: 1rem;
-}
-
-.update {
-  background-color: var(--gray);
-  padding: 1rem;
-  border-left: 4px solid var(--yellow);
-  margin-bottom: 1rem;
-  border-radius: 5px;
-}
-
-/* ✅ Yellow headers only for residents and isibo leaders tables */
-#residentsTable th,
-#isiboLeadersTable th {
-  background-color: #f1c40f; /* Rwandan yellow */
-  color: black;
-  padding: 10px;
-  text-align: left;
-}
-
-/* ✅ Add table borders */
-#residentsTable,
-#residentsTable th,
-#residentsTable td,
-#isiboLeadersTable,
-#isiboLeadersTable th,
-#isiboLeadersTable td {
-  border: 1px solid #ddd;
-  border-collapse: collapse;
-  padding: 8px;
-}
-
-/* ✅ Optional: hover highlight */
-#residentsTable tr:hover,
-#isiboLeadersTable tr:hover {
-  background-color: #fff9dc;
-}
-
-
-.update small {
-  display: block;
-  color: #666;
-  margin-top: 0.5rem;
-  font-size: 0.85rem;
-}
-
-/* ✅ FORM STYLES (Login/Register) */
+/* =================================== */
+/* FORMS & BUTTONS */
 form {
   display: flex;
   flex-direction: column;
@@ -146,7 +99,7 @@ label {
   font-weight: 600;
 }
 
-input, select {
+input, select, textarea {
   padding: 0.5rem;
   border: 1px solid var(--gray);
   border-radius: 5px;
@@ -170,7 +123,63 @@ button:hover {
   background-color: var(--blue);
 }
 
-/* ✅ LOGIN/REGISTER BOX */
+.delete-btn {
+  background-color: var(--danger);
+}
+
+.delete-btn:hover {
+  background-color: #c9302c;
+}
+
+/* =================================== */
+/* TABLES */
+.table-container {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--white);
+  margin-top: 1rem;
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+th {
+  background-color: var(--yellow);
+  color: #000;
+  font-weight: 600;
+}
+
+tr:hover {
+  background-color: #f7f7f7;
+}
+
+/* =================================== */
+/* COMPONENT: .update */
+.update {
+  background-color: var(--gray);
+  padding: 1rem;
+  border-left: 4px solid var(--yellow);
+  margin-bottom: 1rem;
+  border-radius: 5px;
+}
+
+.update small {
+  display: block;
+  color: #666;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* =================================== */
+/* COMPONENT: .login-container */
 .login-container {
   background-color: var(--white);
   border-left: 8px solid var(--yellow);
@@ -197,32 +206,105 @@ button:hover {
   text-decoration: none;
 }
 
-/* ✅ RESIDENTS TABLE */
-.table-container {
-  overflow-x: auto;
+/* =================================== */
+/* COMPONENT: .leader-info & .action-buttons */
+.leader-info {
+  background: var(--gray);
+  padding: 1rem;
+  border-radius: 8px;
   margin-top: 1rem;
 }
 
-table {
-  width: 100%;
-  border-collapse: collapse;
+.leader-info p {
+  margin: 0.5rem 0;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* =================================== */
+/* COMPONENT: .reply-box & .thought */
+.reply-box, .thought {
+  background-color: #e6f4ea;
+  border-left: 4px solid var(--green);
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.thought {
+  border-left: 4px solid var(--yellow);
+  background-color: var(--gray);
+  margin-bottom: 2rem;
+}
+
+/* =================================== */
+/* COMPONENT: .stats-grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.stat-card {
   background: var(--white);
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  font-size: 1.1rem;
+  font-weight: bold;
+  text-align: center;
+  border-left: 6px solid var(--blue);
 }
 
-th, td {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid var(--gray);
-  text-align: left;
+.stat-card span {
+  display: block;
+  font-size: 2rem;
+  color: var(--green);
+  margin-top: 0.3rem;
 }
 
-th {
-  background-color: var(--blue);
-  color: white;
-  font-weight: 600;
+/* =================================== */
+/* MEDIA QUERIES FOR MOBILE */
+@media (max-width: 700px) {
+  .content, .table-container {
+    padding: 1rem !important;
+    margin: 0.5rem !important;
+  }
+
+  table, thead, tbody, th, td, tr {
+    display: block;
+    width: 100%;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #eee;
+  }
+
+  td {
+    padding: 0.5rem;
+    text-align: right;
+    position: relative;
+  }
+
+  td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+    color: var(--green);
+  }
+
+  input[type="search"] {
+    width: 100% !important;
+    margin-bottom: 1rem;
+  }
 }
-
-tr:hover {
-  background-color: #f7f7f7;
-}
-
-
