@@ -207,6 +207,18 @@ tr:hover {
 }
 
 /* =================================== */
+/* COMPONENT: .panel */
+.panel {
+  max-width: 800px;
+  margin: 2rem auto;
+  background: var(--white);
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+/* =================================== */
 /* COMPONENT: .leader-info & .action-buttons */
 .leader-info {
   background: var(--gray);
