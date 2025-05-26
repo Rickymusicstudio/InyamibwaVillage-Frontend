@@ -42,12 +42,13 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
     }
 
     .navbar h2 {
       margin: 0;
       font-size: 1.5rem;
+      flex: 1; /* push hamburger to right */
     }
 
     .hamburger {
@@ -57,7 +58,6 @@
       color: white;
       border: none;
       cursor: pointer;
-      margin-left: auto; /* align to right */
     }
 
     .navbar ul {
