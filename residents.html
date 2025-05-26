@@ -42,6 +42,7 @@ h1, h2 {
   position: sticky;
   top: 0;
   z-index: 100;
+  flex-wrap: wrap;
 }
 
 .navbar h2 {
@@ -76,53 +77,6 @@ h1, h2 {
 .navbar li a:hover,
 .navbar li a.active {
   border-bottom: 2px solid var(--yellow);
-}
-
-@media (max-width: 700px) {
-  .hamburger {
-    display: block;
-  }
-
-  .navbar ul {
-    flex-direction: column;
-    width: 100%;
-    background: linear-gradient(to bottom right, var(--blue), var(--green));
-    position: absolute;
-    top: 60px;
-    left: 0;
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.3s ease-in-out;
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .navbar ul.show {
-    max-height: 100vh;
-  }
-
-  .navbar li {
-    width: 80%;
-  }
-
-  .navbar li a {
-    display: block;
-    width: 100%;
-    padding: 1rem;
-    text-align: center;
-    background-color: var(--yellow);
-    color: #000;
-    font-weight: bold;
-    border-radius: 10px;
-    text-decoration: none;
-    transition: background 0.3s ease;
-  }
-
-  .navbar li a:hover {
-    background-color: #e6b800;
-  }
 }
 
 .content {
@@ -177,36 +131,56 @@ input[type="search"] {
 }
 
 @media (max-width: 700px) {
+  .hamburger {
+    display: block;
+  }
+
+  .navbar ul {
+    flex-direction: column;
+    width: 100%;
+    background: linear-gradient(to bottom right, var(--blue), var(--green));
+    position: absolute;
+    top: 60px;
+    left: 0;
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 0;
+    display: flex;
+    gap: 1rem;
+    height: calc(100vh - 60px);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* ensure it overlays content below */
+  }
+
+  .navbar ul.show {
+    max-height: 100vh;
+  }
+
+  .navbar li {
+    width: 80%;
+  }
+
+  .navbar li a {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    text-align: center;
+    background-color: var(--yellow);
+    color: #000;
+    font-weight: bold;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+
+  .navbar li a:hover {
+    background-color: #e6b800;
+  }
+
   .content, .table-container {
     padding: 1rem !important;
     margin: 0.5rem !important;
-  }
-
-  .table-container {
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  thead {
-    display: table-header-group;
-  }
-
-  tr {
-    display: table-row;
-  }
-
-  td, th {
-    display: table-cell;
-    text-align: left;
-  }
-
-  input[type="search"] {
-    width: 100% !important;
-    margin-bottom: 1rem;
   }
 }
 </style>
