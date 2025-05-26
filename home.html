@@ -84,32 +84,34 @@ h1, h2 {
 
 .content {
   max-width: 800px;
-  margin: 2rem auto;
+  margin: 4rem auto;
   position: relative;
-  height: 300px;
-  padding: 0 1rem; /* Padding to avoid touching edges */
+  height: 250px;
+  padding: 0 1rem;
 }
 
 .panel {
   position: absolute;
-  width: calc(100% - 2rem); /* Width adjusted for side margins */
+  width: calc(100% - 2rem);
   margin: 0 1rem;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
   padding: 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  animation: slideLoop 10s infinite;
+  opacity: 0;
+  transform: translateX(100%);
+  animation: slideLoop 6s infinite;
 }
 
 .panel:nth-child(1) {
   animation-delay: 0s;
 }
 .panel:nth-child(2) {
-  animation-delay: 5s; /* 5-second delay for second panel */
+  animation-delay: 3s;
 }
 
 @keyframes slideLoop {
-  0%, 100% {
+  0% {
     transform: translateX(100%);
     opacity: 0;
   }
@@ -117,7 +119,11 @@ h1, h2 {
     transform: translateX(0);
     opacity: 1;
   }
-  50%, 90% {
+  50% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  100% {
     transform: translateX(-100%);
     opacity: 0;
   }
