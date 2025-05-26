@@ -14,7 +14,6 @@
   --background: #f5f5f5;
   --white: #ffffff;
   --gray: #f0f0f0;
-  --danger: #d9534f;
 }
 
 * {
@@ -86,33 +85,47 @@ h1, h2 {
 .content {
   max-width: 800px;
   margin: 2rem auto;
-  background: rgba(255, 255, 255, 0.8); /* Reduced opacity */
+  position: relative;
+  height: 300px; /* Fixed height for the carousel */
+}
+
+.panel {
+  position: absolute;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   padding: 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-
-  /* Animation */
-  transform: translateX(-100%);
-  opacity: 0;
-  animation: slide-in 1s forwards;
+  animation: slideLoop 8s infinite;
 }
 
-@keyframes slide-in {
-  to {
+.panel:nth-child(1) {
+  animation-delay: 0s;
+}
+.panel:nth-child(2) {
+  animation-delay: 4s;
+}
+
+@keyframes slideLoop {
+  0%, 100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  10%, 40% {
     transform: translateX(0);
     opacity: 1;
   }
-}
-
-.welcome, .communique {
-  margin-top: 2rem;
+  50%, 90% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
 }
 
 .update {
   background: var(--gray);
   padding: 1rem;
   border-left: 4px solid var(--yellow);
-  margin-bottom: 1rem;
+  margin-top: 1rem;
   border-radius: 5px;
 }
 
@@ -144,7 +157,6 @@ h1, h2 {
 
   .navbar li {
     width: 80%;
-    list-style: none;
   }
 
   .navbar li a {
@@ -175,12 +187,12 @@ h1, h2 {
 </nav>
 
 <main class="content">
-  <section class="welcome">
+  <section class="panel welcome">
     <h1>Murakaza neza!</h1>
     <p>Turakwishimiye ku rubuga rw'umudugudu wa Inyamibwa. Hano uzahasanga amakuru agezweho, ibitekerezo, n'ubuyobozi bw'umudugudu wawe.</p>
   </section>
 
-  <section class="communique">
+  <section class="panel communique">
     <h2>📣 Itangazo ry’Umudugudu</h2>
     <div id="communiqueContainer">
       <p>Biracyashakishwa...</p>
