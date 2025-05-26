@@ -86,21 +86,27 @@ h1, h2 {
   max-width: 800px;
   margin: 4rem auto;
   position: relative;
-  height: 250px;
-  padding: 0 1rem;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .panel {
-  position: absolute;
-  width: calc(100% - 2rem);
-  margin: 0 1rem;
   background: rgba(255, 255, 255, 0.9);
   border-radius: 10px;
-  padding: 2rem;
+  padding: 1.5rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  max-width: 90%;
+  width: 90%;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  animation: slideLoop 6s infinite;
   opacity: 0;
   transform: translateX(100%);
-  animation: slideLoop 6s infinite;
+  position: absolute;
 }
 
 .panel:nth-child(1) {
