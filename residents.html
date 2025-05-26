@@ -86,17 +86,20 @@ h1, h2 {
   .navbar ul {
     flex-direction: column;
     width: 100%;
-    background: linear-gradient(to bottom right, var(--blue), var(--green));
-    position: absolute;
-    top: 60px;
+    position: fixed;
+    top: 0;
     left: 0;
-    overflow: hidden;
+    height: 100vh; /* cover the entire page */
+    background: linear-gradient(to bottom right, var(--blue), var(--green));
+    overflow: auto;
     max-height: 0;
     transition: max-height 0.3s ease-in-out;
     display: flex;
     gap: 1rem;
     justify-content: center;
     align-items: center;
+    padding-top: 60px;
+    z-index: 999; /* ensure it’s on top */
   }
 
   .navbar ul.show {
