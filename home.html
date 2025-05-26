@@ -86,24 +86,26 @@ h1, h2 {
   max-width: 800px;
   margin: 2rem auto;
   position: relative;
-  height: 300px; /* Fixed height for the carousel */
+  height: 300px;
+  padding: 0 1rem; /* Padding to avoid touching edges */
 }
 
 .panel {
   position: absolute;
-  width: 100%;
+  width: calc(100% - 2rem); /* Width adjusted for side margins */
+  margin: 0 1rem;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   padding: 2rem;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  animation: slideLoop 8s infinite;
+  animation: slideLoop 10s infinite;
 }
 
 .panel:nth-child(1) {
   animation-delay: 0s;
 }
 .panel:nth-child(2) {
-  animation-delay: 4s;
+  animation-delay: 5s; /* 5-second delay for second panel */
 }
 
 @keyframes slideLoop {
