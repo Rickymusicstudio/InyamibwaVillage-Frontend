@@ -86,7 +86,7 @@ h1, h2 {
   max-width: 800px;
   margin: 4rem auto;
   position: relative;
-  height: 520px; /* Extended container height */
+  height: 520px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,11 +99,11 @@ h1, h2 {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   max-width: 90%;
   width: 90%;
-  height: 520px; /* Doubled vertical height */
+  height: 520px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  animation: slideLoop 10s infinite; /* 10s for 5s delay between slides */
+  animation: slideLoop 10s infinite;
   opacity: 0;
   transform: translateX(100%);
   position: absolute;
@@ -113,7 +113,7 @@ h1, h2 {
   animation-delay: 0s;
 }
 .panel:nth-child(2) {
-  animation-delay: 5s; /* 5s delay between slides */
+  animation-delay: 5s;
 }
 
 @keyframes slideLoop {
@@ -133,6 +133,10 @@ h1, h2 {
     transform: translateX(-100%);
     opacity: 0;
   }
+}
+
+.panel.paused {
+  animation-play-state: paused !important;
 }
 
 .update {
@@ -203,7 +207,7 @@ h1, h2 {
 <main class="content">
   <section class="panel welcome">
     <h1>Murakaza neza!</h1>
-    <p>Twishimiye kubakira k'urubuga rwacu rw'inyamibwa. Uru rubuga  rugenewe kubahuza no kubagezaho amakuru atandukanye yerekeye umudugudu w’Inyamibwa. Turifuza gukomeza gufasha buri wese kubona serivisi nziza no kugaragaza ibitekerezo byubaka Umudugudu.Turabashimira gukomeza kubahiriza gahunda z Igihugu kandi turabizeza ubufatanye buhamye n’ubwuzuzanye.</p>
+    <p>Twishimiye kubakira k'urubuga rwacu rw'inyamibwa. Uru rubuga rugenewe kubahuza no kubagezaho amakuru atandukanye yerekeye umudugudu w’Inyamibwa. Turifuza gukomeza gufasha buri wese kubona serivisi nziza no kugaragaza ibitekerezo byubaka Umudugudu.Turabashimira gukomeza kubahiriza gahunda z Igihugu kandi turabizeza ubufatanye buhamye n’ubwuzuzanye.</p>
   </section>
 
   <section class="panel communique">
@@ -251,6 +255,25 @@ h1, h2 {
   function toggleMenu() {
     const navLinks = document.getElementById('navLinks');
     navLinks.classList.toggle('show');
+  }
+
+  // NEW: Pause/resume sliding on touch/click
+  const panels = document.querySelectorAll('.panel');
+
+  panels.forEach(panel => {
+    panel.addEventListener('mousedown', pausePanels);
+    panel.addEventListener('touchstart', pausePanels);
+
+    panel.addEventListener('mouseup', resumePanels);
+    panel.addEventListener('touchend', resumePanels);
+  });
+
+  function pausePanels() {
+    panels.forEach(p => p.classList.add('paused'));
+  }
+
+  function resumePanels() {
+    panels.forEach(p => p.classList.remove('paused'));
   }
 </script>
 </body>
