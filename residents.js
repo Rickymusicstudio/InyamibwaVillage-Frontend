@@ -151,3 +151,38 @@ fetch(`${API}/api/leaders/cell`, { headers })
     console.error("Error fetching cell leader:", err);
     cellLeaderDiv.innerHTML = "<p>Habaye ikibazo mu kubona Umukuru w’Umudugudu.</p>";
   });
+
+// ✅ Fetch and display Abanyerondo (Shift table)
+fetch(`${API}/api/irondo/current-shift`, { headers })
+  .then(res => res.json())
+  .then(data => {
+    console.log("Abanyerondo shift data:", data); // Debug log
+
+    const tbody = document.querySelector('#shiftTable tbody');
+    tbody.innerHTML = '';
+
+    const rows = [
+      ...(data.day || []).map(p => ({ ...p, shift: 'Kumanywa' })),
+      ...(data.night || []).map(p => ({ ...p, shift: 'Nijoro' }))
+    ];
+
+    if (!rows.length) {
+      tbody.innerHTML = '<tr><td colspan="3">Nta munyerondo uri ku kazi.</td></tr>';
+      return;
+    }
+
+    rows.forEach(member => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td data-label="Izina">${member.full_name}</td>
+        <td data-label="Telefone">${member.phone || '-'}</td>
+        <td data-label="Shift">${member.shift}</td>
+      `;
+      tbody.appendChild(row);
+    });
+  })
+  .catch(err => {
+    const tbody = document.querySelector('#shiftTable tbody');
+    tbody.innerHTML = '<tr><td colspan="3">Ntibyakunze kubona abanyerondo bari ku kazi.</td></tr>';
+    console.error('Irondo shift fetch error:', err);
+  });
