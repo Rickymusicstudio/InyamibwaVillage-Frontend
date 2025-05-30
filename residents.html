@@ -13,10 +13,11 @@
   --gray: #f0f0f0;
   --text-dark: #1c1c1c;
   --white: #ffffff;
-  --danger: #d9534f;
 }
 
-* { box-sizing: border-box; }
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0;
@@ -26,7 +27,10 @@ body {
   min-height: 100vh;
 }
 
-h1, h2 { color: var(--blue); margin-top: 0; }
+h1, h2 {
+  color: var(--blue);
+  margin-top: 0;
+}
 
 .navbar {
   display: flex;
@@ -41,7 +45,11 @@ h1, h2 { color: var(--blue); margin-top: 0; }
   flex-wrap: wrap;
 }
 
-.navbar h2 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+.navbar h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
 
 .hamburger {
   display: none;
@@ -67,7 +75,9 @@ h1, h2 { color: var(--blue); margin-top: 0; }
 }
 
 .navbar li a:hover,
-.navbar li a.active { border-bottom: 2px solid var(--yellow); }
+.navbar li a.active {
+  border-bottom: 2px solid var(--yellow);
+}
 
 .content {
   max-width: 1000px;
@@ -84,7 +94,10 @@ h1, h2 { color: var(--blue); margin-top: 0; }
   margin-bottom: 2rem;
 }
 
-table { width: 100%; border-collapse: collapse; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
 th, td {
   padding: 10px;
@@ -99,7 +112,9 @@ th {
   text-align: center;
 }
 
-tr:hover { background-color: #f7f7f7; }
+tr:hover {
+  background-color: #f7f7f7;
+}
 
 input[type="search"] {
   padding: 6px 12px;
@@ -108,8 +123,15 @@ input[type="search"] {
   border-radius: 5px;
 }
 
+#cellLeaderInfo, #securityLeaderInfo {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-left: 4px solid var(--green);
+  border-radius: 6px;
+}
+
 .delete-btn {
-  background-color: var(--danger);
+  background-color: #d9534f;
   color: white;
   border: none;
   padding: 4px 8px;
@@ -117,10 +139,15 @@ input[type="search"] {
   cursor: pointer;
 }
 
-.delete-btn:hover { background-color: #c9302c; }
+.delete-btn:hover {
+  background-color: #c9302c;
+}
 
 @media (max-width: 700px) {
-  .hamburger { display: block; }
+  .hamburger {
+    display: block;
+  }
+
   .navbar ul {
     flex-direction: column;
     width: 100%;
@@ -138,8 +165,15 @@ input[type="search"] {
     align-items: center;
     z-index: 9999;
   }
-  .navbar ul.show { max-height: 100vh; }
-  .navbar li { width: 80%; }
+
+  .navbar ul.show {
+    max-height: 100vh;
+  }
+
+  .navbar li {
+    width: 80%;
+  }
+
   .navbar li a {
     display: block;
     width: 100%;
@@ -152,7 +186,11 @@ input[type="search"] {
     text-decoration: none;
     transition: background 0.3s ease;
   }
-  .navbar li a:hover { background-color: #e6b800; }
+
+  .navbar li a:hover {
+    background-color: #e6b800;
+  }
+
   .content, .table-container {
     padding: 1rem !important;
     margin: 0.5rem !important;
@@ -187,7 +225,7 @@ input[type="search"] {
             <th>Inzu</th>
             <th>Isibo</th>
             <th>Uburyo atuyemo</th>
-            <th>Ibikorwa</th> <!-- Keep this for delete button -->
+            <th>Ibikorwa</th>
           </tr>
         </thead>
         <tbody></tbody>
@@ -195,7 +233,51 @@ input[type="search"] {
     </div>
   </section>
 
-  <!-- Other sections like leaders & security remain unchanged -->
+  <section>
+    <h2>🧑‍🏫 Abatwarasibo</h2>
+    <div class="table-container">
+      <table id="isiboLeadersTable">
+        <thead>
+          <tr>
+            <th>Izina</th>
+            <th>Indangamuntu</th>
+            <th>Telefone</th>
+            <th>Email</th>
+            <th>Inzu</th>
+            <th>Isibo</th>
+            <th>Uburyo atuyemo</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>🛡️ Umukuru w’Umutekano</h2>
+    <div id="securityLeaderInfo">Biracyashakishwa...</div>
+  </section>
+
+  <section>
+    <h2>👨‍⚖️ Umukuru w’Umudugudu</h2>
+    <div id="cellLeaderInfo">Biracyashakishwa...</div>
+  </section>
+
+  <section style="margin-top: 3rem;">
+    <h2>👮 Abanyerondo bari ku kazi</h2>
+    <div class="table-container">
+      <table id="shiftTable">
+        <thead>
+          <tr>
+            <th>Izina</th>
+            <th>Telefone</th>
+            <th>Shift</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
 </main>
 
 <script src="config/api.js"></script>
