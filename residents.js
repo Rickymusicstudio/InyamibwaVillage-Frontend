@@ -152,11 +152,11 @@ fetch(`${API}/api/leaders/cell`, { headers })
     cellLeaderDiv.innerHTML = "<p>Habaye ikibazo mu kubona Umukuru w’Umudugudu.</p>";
   });
 
-// ✅ Fetch and display Abanyerondo (Shift table)
+// ✅ Fetch and display Abanyerondo (Shift table) with delete buttons
 fetch(`${API}/api/irondo/current-shift`, { headers })
   .then(res => res.json())
   .then(data => {
-    console.log("Abanyerondo shift data:", data); // Debug log
+    console.log("Abanyerondo shift data:", data);
 
     const tbody = document.querySelector('#shiftTable tbody');
     tbody.innerHTML = '';
@@ -167,7 +167,7 @@ fetch(`${API}/api/irondo/current-shift`, { headers })
     ];
 
     if (!rows.length) {
-      tbody.innerHTML = '<tr><td colspan="3">Nta munyerondo uri ku kazi.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="4">Nta munyerondo uri ku kazi.</td></tr>';
       return;
     }
 
@@ -177,12 +177,35 @@ fetch(`${API}/api/irondo/current-shift`, { headers })
         <td data-label="Izina">${member.full_name}</td>
         <td data-label="Telefone">${member.phone || '-'}</td>
         <td data-label="Shift">${member.shift}</td>
+        <td>
+          ${
+            ['admin', 'security'].includes(role)
+              ? `<button onclick="deleteIrondoMember('${member.id}')" class="delete-btn">Siba</button>`
+              : ''
+          }
+        </td>
       `;
       tbody.appendChild(row);
     });
   })
   .catch(err => {
     const tbody = document.querySelector('#shiftTable tbody');
-    tbody.innerHTML = '<tr><td colspan="3">Ntibyakunze kubona abanyerondo bari ku kazi.</td></tr>';
+    tbody.innerHTML = '<tr><td colspan="4">Ntibyakunze kubona abanyerondo bari ku kazi.</td></tr>';
     console.error('Irondo shift fetch error:', err);
   });
+
+// ✅ Function to delete Irondo member
+function deleteIrondoMember(id) {
+  if (!confirm('Wemeza ko ushaka gusiba uyu munyerondo?')) return;
+
+  fetch(`${API}/api/irondo/${id}`, {
+    method: 'DELETE',
+    headers
+  })
+    .then(res => res.json())
+    .then(data => {
+      alert(data.message || 'Umunyerondo yasibwe.');
+      window.location.reload();
+    })
+    .catch(() => alert('Ntibyakunze gusiba.'));
+}
