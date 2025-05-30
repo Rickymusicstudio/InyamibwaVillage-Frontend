@@ -86,3 +86,68 @@ function deleteResident(id) {
     })
     .catch(() => alert('Ntibyakunze gusiba.'));
 }
+
+// ✅ Fetch and display Isibo Leaders
+const isiboLeadersTableBody = document.querySelector("#isiboLeadersTable tbody");
+fetch(`${API}/api/leaders/isibo`, { headers })
+  .then(res => res.json())
+  .then(data => {
+    isiboLeadersTableBody.innerHTML = "";
+    data.forEach((leader) => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${leader.full_name}</td>
+        <td>${canViewID ? leader.national_id : maskID(leader.national_id)}</td>
+        <td>${leader.phone_number || '-'}</td>
+        <td>${leader.email || '-'}</td>
+        <td>${leader.house || '-'}</td>
+        <td>${leader.isibo || '-'}</td>
+        <td>${leader.resident_type || '-'}</td>
+      `;
+      isiboLeadersTableBody.appendChild(tr);
+    });
+  })
+  .catch((err) => {
+    console.error("Error fetching isibo leaders:", err);
+    isiboLeadersTableBody.innerHTML = "<tr><td colspan='7'>Habaye ikibazo mu kubona abatwarasibo.</td></tr>";
+  });
+
+// ✅ Fetch and display Security Leader
+const securityLeaderDiv = document.getElementById("securityLeaderInfo");
+fetch(`${API}/api/leaders/security`, { headers })
+  .then(res => res.json())
+  .then(leader => {
+    securityLeaderDiv.innerHTML = `
+      <p><strong>Izina:</strong> ${leader.full_name}</p>
+      <p><strong>Indangamuntu:</strong> ${canViewID ? leader.national_id : maskID(leader.national_id)}</p>
+      <p><strong>Telefone:</strong> ${leader.phone_number || '-'}</p>
+      <p><strong>Email:</strong> ${leader.email || '-'}</p>
+      <p><strong>Inzu:</strong> ${leader.house || '-'}</p>
+      <p><strong>Isibo:</strong> ${leader.isibo || '-'}</p>
+      <p><strong>Uburyo atuyemo:</strong> ${leader.resident_type || '-'}</p>
+    `;
+  })
+  .catch((err) => {
+    console.error("Error fetching security leader:", err);
+    securityLeaderDiv.innerHTML = "<p>Habaye ikibazo mu kubona Umukuru w’Umutekano.</p>";
+  });
+
+// ✅ Fetch and display Cell Leader
+const cellLeaderDiv = document.getElementById("cellLeaderInfo");
+fetch(`${API}/api/leaders/cell`, { headers })
+  .then(res => res.json())
+  .then(leader => {
+    cellLeaderDiv.innerHTML = `
+      <p><strong>Izina:</strong> ${leader.full_name}</p>
+      <p><strong>Indangamuntu:</strong> ${canViewID ? leader.national_id : maskID(leader.national_id)}</p>
+      <p><strong>Telefone:</strong> ${leader.phone_number || '-'}</p>
+      <p><strong>Email:</strong> ${leader.email || '-'}</p>
+      <p><strong>Inzu:</strong> ${leader.house || '-'}</p>
+      <p><strong>Isibo:</strong> ${leader.isibo || '-'}</p>
+      <p><strong>Uburyo atuyemo:</strong> ${leader.resident_type || '-'}</p>
+    `;
+  })
+  .catch((err) => {
+    console.error("Error fetching cell leader:", err);
+    cellLeaderDiv.innerHTML = "<p>Habaye ikibazo mu kubona Umukuru w’Umudugudu.</p>";
+  });
