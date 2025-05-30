@@ -1,124 +1,298 @@
-// residents.js
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Abatuye Umudugudu - Inyamibwa</title>
 
-const token = JSON.parse(localStorage.getItem("loggedUser"))?.token;
-
-if (!token) {
-  alert("Access denied.");
-  window.location.href = "login.html";
+<style>
+:root {
+  --blue: #00aeef;
+  --yellow: #fcd116;
+  --green: #007a33;
+  --gray: #f0f0f0;
+  --text-dark: #1c1c1c;
+  --white: #ffffff;
 }
 
-const headers = {
-  Authorization: "Bearer " + token,
-};
+* { box-sizing: border-box; }
 
-// 🛡️ Decode token to get role
-const role = JSON.parse(atob(token.split('.')[1]))?.role;
-const canViewID = ['admin', 'cell_leader', 'isibo_leader', 'security'].includes(role);
-
-// 🌐 Use dynamic API base URL
-const API = window.API_BASE_URL;
-
-// Masking function for national ID
-function maskID(id) {
-  return id?.length >= 4
-    ? id.slice(0, 2) + '••••••••' + id.slice(-2)
-    : '••••••••••';
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom right, var(--blue), var(--green));
+  color: var(--text-dark);
+  min-height: 100vh;
 }
 
-const residentsTableBody = document.querySelector("#residentsTable tbody");
-const isiboLeadersTableBody = document.querySelector("#isiboLeadersTable tbody");
-const securityLeaderDiv = document.getElementById("securityLeaderInfo");
-const cellLeaderDiv = document.getElementById("cellLeaderInfo");
-const residentSearchInput = document.getElementById("residentSearch");
-
-// ✅ Create a row for residents and isibo leaders
-function createResidentRow(person) {
-  const tr = document.createElement("tr");
-  tr.innerHTML = `
-    <td>${person.full_name}</td>
-    <td>${canViewID ? person.national_id : maskID(person.national_id)}</td>
-    <td>${person.phone_number}</td>
-    <td>${person.email}</td>
-    <td>${person.house}</td>
-    <td>${person.isibo}</td>
-    <td>${person.resident_type}</td>
-  `;
-  return tr;
+h1, h2 {
+  color: var(--blue);
+  margin-top: 0;
 }
 
-// ✅ Fetch and display residents
-fetch(`${API}/api/residents`, { headers })
-  .then((res) => res.json())
-  .then((data) => {
-    residentsTableBody.innerHTML = "";
-    data.forEach((resident) => {
-      const tr = createResidentRow(resident);
-      residentsTableBody.appendChild(tr);
-    });
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--blue);
+  color: white;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-wrap: wrap;
+}
 
-    residentSearchInput.addEventListener("input", () => {
-      const searchTerm = residentSearchInput.value.toLowerCase();
-      const rows = residentsTableBody.querySelectorAll("tr");
-      rows.forEach((row) => {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(searchTerm) ? "" : "none";
+.navbar h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.hamburger {
+  display: none;
+  font-size: 1.8rem;
+  background: none;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar li a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navbar li a:hover,
+.navbar li a.active {
+  border-bottom: 2px solid var(--yellow);
+}
+
+.content {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.table-container {
+  overflow-x: auto;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border: 1px solid #ccc;
+}
+
+th {
+  background-color: var(--yellow);
+  color: #000;
+  font-weight: 700;
+  text-align: center;
+}
+
+tr:hover { background-color: #f7f7f7; }
+
+input[type="search"] {
+  padding: 6px 12px;
+  font-size: 16px;
+  border: 1px solid var(--gray);
+  border-radius: 5px;
+}
+
+#cellLeaderInfo, #securityLeaderInfo {
+  background: #f9f9f9;
+  padding: 1rem;
+  border-left: 4px solid var(--green);
+  border-radius: 6px;
+}
+
+@media (max-width: 700px) {
+  .hamburger { display: block; }
+  .navbar ul {
+    flex-direction: column;
+    width: 100%;
+    background: linear-gradient(to bottom right, var(--blue), var(--green));
+    position: absolute;
+    top: 60px;
+    left: 0;
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
+    max-height: 0;
+    display: flex;
+    gap: 1rem;
+    height: calc(100vh - 60px);
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  .navbar ul.show { max-height: 100vh; }
+  .navbar li { width: 80%; }
+  .navbar li a {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    text-align: center;
+    background-color: var(--yellow);
+    color: #000;
+    font-weight: bold;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: background 0.3s ease;
+  }
+  .navbar li a:hover { background-color: #e6b800; }
+  .content, .table-container {
+    padding: 1rem !important;
+    margin: 0.5rem !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<nav class="navbar">
+  <h2>🏡 Inyamibwa</h2>
+  <button class="hamburger" onclick="toggleMenu()">☰</button>
+  <ul id="navLinks"></ul>
+</nav>
+
+<main class="content">
+  <h1>👥 ABATUYE UMUDUGUDU</h1>
+
+  <section>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+      <h2>Abaturage</h2>
+      <input type="search" id="residentSearch" placeholder="Shakisha abaturage...">
+    </div>
+    <div class="table-container">
+      <table id="residentsTable">
+        <thead>
+          <tr>
+            <th>Izina</th>
+            <th>Indangamuntu</th>
+            <th>Telefone</th>
+            <th>Email</th>
+            <th>Inzu</th>
+            <th>Isibo</th>
+            <th>Uburyo atuyemo</th>
+            <th>Ibikorwa</th> <!-- ⭐️ Added for delete button -->
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>🧑‍🏫 Abatwarasibo</h2>
+    <div class="table-container">
+      <table id="isiboLeadersTable">
+        <thead>
+          <tr>
+            <th>Izina</th>
+            <th>Indangamuntu</th>
+            <th>Telefone</th>
+            <th>Email</th>
+            <th>Inzu</th>
+            <th>Isibo</th>
+            <th>Uburyo atuyemo</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>🛡️ Umukuru w’Umutekano</h2>
+    <div id="securityLeaderInfo">Biracyashakishwa...</div>
+  </section>
+
+  <section>
+    <h2>👨‍⚖️ Umukuru w’Umudugudu</h2>
+    <div id="cellLeaderInfo">Biracyashakishwa...</div>
+  </section>
+
+  <section style="margin-top: 3rem;">
+    <h2>👮 Abanyerondo bari ku kazi</h2>
+    <div class="table-container">
+      <table id="shiftTable">
+        <thead>
+          <tr>
+            <th>Izina</th>
+            <th>Telefone</th>
+            <th>Shift</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script src="config/api.js"></script>
+<script src="shared.js"></script>
+<script src="residents.js"></script>
+<script>
+  if (!token) {
+    alert('Access denied.');
+    window.location.href = 'login.html';
+  }
+
+  renderNav('residents');
+
+  function toggleMenu() {
+    const navLinks = document.getElementById('navLinks');
+    navLinks.classList.toggle('show');
+  }
+
+  fetch(`${API_BASE_URL}/api/irondo/current-shift`)
+    .then(res => res.json())
+    .then(data => {
+      const tbody = document.querySelector('#shiftTable tbody');
+      tbody.innerHTML = '';
+
+      const rows = [...data.day.map(p => ({ ...p, shift: 'Kumanywa' })), ...data.night.map(p => ({ ...p, shift: 'Nijoro' }))];
+
+      if (!rows.length) {
+        tbody.innerHTML = '<tr><td colspan="3">Nta munyerondo uri ku kazi.</td></tr>';
+        return;
+      }
+
+      rows.forEach(member => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td data-label="Izina">${member.full_name}</td>
+          <td data-label="Telefone">${member.phone || '-'}</td>
+          <td data-label="Shift">${member.shift}</td>
+        `;
+        tbody.appendChild(row);
       });
+    })
+    .catch(err => {
+      const tbody = document.querySelector('#shiftTable tbody');
+      tbody.innerHTML = '<tr><td colspan="3">Ntibyakunze kubona abanyerondo bari ku kazi.</td></tr>';
+      console.error('Irondo shift fetch error:', err);
     });
-  })
-  .catch((err) => {
-    console.error("Error fetching residents:", err);
-    residentsTableBody.innerHTML = "<tr><td colspan='7'>Habaye ikibazo mu kubona abaturage.</td></tr>";
-  });
-
-// ✅ Isibo Leaders
-fetch(`${API}/api/leaders/isibo`, { headers })
-  .then((res) => res.json())
-  .then((data) => {
-    isiboLeadersTableBody.innerHTML = "";
-    data.forEach((leader) => {
-      const tr = createResidentRow(leader);
-      isiboLeadersTableBody.appendChild(tr);
-    });
-  })
-  .catch((err) => {
-    console.error("Error fetching isibo leaders:", err);
-    isiboLeadersTableBody.innerHTML = "<tr><td colspan='7'>Habaye ikibazo mu kubona abatwarasibo.</td></tr>";
-  });
-
-// ✅ Security Leader
-fetch(`${API}/api/leaders/security`, { headers })
-  .then((res) => res.json())
-  .then((leader) => {
-    securityLeaderDiv.innerHTML = `
-      <p><strong>Izina:</strong> ${leader.full_name}</p>
-      <p><strong>Indangamuntu:</strong> ${canViewID ? leader.national_id : maskID(leader.national_id)}</p>
-      <p><strong>Telefone:</strong> ${leader.phone_number}</p>
-      <p><strong>Email:</strong> ${leader.email}</p>
-      <p><strong>Inzu:</strong> ${leader.house}</p>
-      <p><strong>Isibo:</strong> ${leader.isibo}</p>
-      <p><strong>Uburyo atuyemo:</strong> ${leader.resident_type}</p>
-    `;
-  })
-  .catch((err) => {
-    console.error("Error fetching security leader:", err);
-    securityLeaderDiv.innerHTML = "<p>Habaye ikibazo mu kubona Umukuru w’Umutekano.</p>";
-  });
-
-// ✅ Cell Leader
-fetch(`${API}/api/leaders/cell`, { headers })
-  .then((res) => res.json())
-  .then((leader) => {
-    cellLeaderDiv.innerHTML = `
-      <p><strong>Izina:</strong> ${leader.full_name}</p>
-      <p><strong>Indangamuntu:</strong> ${canViewID ? leader.national_id : maskID(leader.national_id)}</p>
-      <p><strong>Telefone:</strong> ${leader.phone_number}</p>
-      <p><strong>Email:</strong> ${leader.email}</p>
-      <p><strong>Inzu:</strong> ${leader.house}</p>
-      <p><strong>Isibo:</strong> ${leader.isibo}</p>
-      <p><strong>Uburyo atuyemo:</strong> ${leader.resident_type}</p>
-    `;
-  })
-  .catch((err) => {
-    console.error("Error fetching cell leader:", err);
-    cellLeaderDiv.innerHTML = "<p>Habaye ikibazo mu kubona Umukuru w’Umudugudu.</p>";
-  });
+</script>
+</body>
+</html>
